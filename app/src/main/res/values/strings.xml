@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Smart Gallery Wizard</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Awesome Button</string>
+    <string name="dummy_content">AWESOME\nCONTENT</string>
 </resources>
