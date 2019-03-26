@@ -1,10 +1,14 @@
 package com.example.smartgallerywizard
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.Button
 import kotlinx.android.synthetic.main.activity_fullscreen.*
+import android.support.v4.content.ContextCompat.startActivity
+import android.content.Intent
+
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -59,7 +63,20 @@ class MainActivity : AppCompatActivity() {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        dummy_button.setOnTouchListener(mDelayHideTouchListener)
+        main_click_button.setOnTouchListener(mDelayHideTouchListener)
+
+
+        createListenerOnClickButton()
+
+
+    }
+
+    private fun createListenerOnClickButton() {
+        val clickButton = findViewById<Button>(R.id.main_click_button)
+        clickButton.setOnClickListener {
+            this@MainActivity.startActivity(Intent(this@MainActivity,
+                    SecondActivity::class.java))
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
