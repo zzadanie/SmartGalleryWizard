@@ -71,6 +71,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = gridLayoutManager
 
 
+
+
 //        Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(imageView)
 
 

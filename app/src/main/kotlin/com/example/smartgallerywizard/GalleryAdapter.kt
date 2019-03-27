@@ -17,5 +17,9 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MViewHolder>() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    class MViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class MViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        override fun onClick(v: View?) {
+
+        }
+    }
 }
