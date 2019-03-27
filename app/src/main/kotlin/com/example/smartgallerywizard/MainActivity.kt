@@ -1,13 +1,10 @@
 package com.example.smartgallerywizard
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
-import android.media.Image
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
@@ -15,18 +12,15 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View.*
 import android.widget.Button
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 import java.io.InputStream
 import java.net.URL
-import android.os.Looper
-import kotlinx.android.synthetic.main.double_column_layout.*
 
 
 class MainActivity : AppCompatActivity() {
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) fullscreen_content.systemUiVisibility =
 //                    SYSTEM_UI_FLAG_LOW_PROFILE or
 //                            SYSTEM_UI_FLAG_FULLSCREEN or
@@ -37,6 +31,10 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
+    private lateinit var imagesList: List<Bitmap>
+    private fun createExemplaryImages() = listOf(createBitmap("a1.jpeg"), createBitmap("a2.jpeg"), createBitmap("a7.jpeg"), createBitmap("c13.jpeg"))
+
+    private fun createBitmap(name: String) = BitmapFactory.decodeStream(assets.open(name))
 
     private val mShowPart2Runnable = Runnable {
         supportActionBar?.show()
@@ -50,9 +48,11 @@ class MainActivity : AppCompatActivity() {
         }
         false
     }
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var gridLayoutManager: GridLayoutManager
 
-    private lateinit var recyclerView : RecyclerView
-    private lateinit var gridLayoutManager : GridLayoutManager
+//    private lateinit var recyclerViewAdapter : RecyclerView.Adapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,9 +63,13 @@ class MainActivity : AppCompatActivity() {
         main_click_button.setOnTouchListener(mDelayHideTouchListener)
         createListenerOnClickButton()
 
+
+        imagesList = createExemplaryImages()
+
         recyclerView = findViewById(R.id.recyclerView)
         gridLayoutManager = GridLayoutManager(applicationContext, 1)
         recyclerView.layoutManager = gridLayoutManager
+
 
 //        Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(imageView)
 
@@ -95,19 +99,20 @@ class MainActivity : AppCompatActivity() {
 //        val handler = Handler(Looper.getMainLooper())
 //        handler.post {
 //            val url = URL(imgUrl)
-//            val bitmap: Bitmap = Picasso.get().load("http://i.imgur.com/DvpvklR.png").get()
+//            val createBitmap: Bitmap = Picasso.get().load("http://i.imgur.com/DvpvklR.png").get()
 //        }
 //    }
 //}
 
-private var bitmap: Bitmap? = null
+    private var bitmap: Bitmap? = null
 
-private fun createListenerOnClickButton() {
-    val clickButton = findViewById<Button>(R.id.main_click_button)
-    clickButton.setOnClickListener {
-        val alertDialog = AlertDialog.Builder(this@MainActivity).create()
+    private fun createListenerOnClickButton() {
+        val clickButton = findViewById<Button>(R.id.main_click_button)
+        clickButton.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(this@MainActivity).create()
 
-        val d =  Drawable.createFromStream(assets.open("a1.jpeg"), null)
+            val d = Drawable.createFromStream(assets.open("a1.jpeg"), null)
+
 
 
 //        alertDialog.setTitle("DOES IMG EXIST?")
@@ -117,53 +122,54 @@ private fun createListenerOnClickButton() {
 //                DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
 //        alertDialog.show()
 
-        val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
+            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
+            intent.putExtra("IMAGE", imgUrl)
 
-        startActivity(intent)
+            startActivity(intent)
 
-        //            this@MainActivity.startActivity(Intent(this@MainActivity,
+            //            this@MainActivity.startActivity(Intent(this@MainActivity,
 //                    SecondActivity::class.java))
+        }
     }
-}
 
-override fun onPostCreate(savedInstanceState: Bundle?) {
-    super.onPostCreate(savedInstanceState)
-    delayedHide(100)
-}
-
-private fun toggle() {
-    if (mVisible) {
-        hide()
-    } else {
-        show()
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        delayedHide(100)
     }
-}
 
-private fun hide() {
-    supportActionBar?.hide()
+    private fun toggle() {
+        if (mVisible) {
+            hide()
+        } else {
+            show()
+        }
+    }
+
+    private fun hide() {
+        supportActionBar?.hide()
 //    fullscreen_content_controls.visibility = GONE
-    mVisible = false
-    mHideHandler.removeCallbacks(mShowPart2Runnable)
-    mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY.toLong())
-}
+        mVisible = false
+        mHideHandler.removeCallbacks(mShowPart2Runnable)
+        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY.toLong())
+    }
 
-private fun show() {
+    private fun show() {
 //    fullscreen_content.systemUiVisibility =
 //            SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
 //                    SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-    mVisible = true
-    mHideHandler.removeCallbacks(mHidePart2Runnable)
-    mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY.toLong())
-}
+        mVisible = true
+        mHideHandler.removeCallbacks(mHidePart2Runnable)
+        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY.toLong())
+    }
 
-private fun delayedHide(delayMillis: Int) {
-    mHideHandler.removeCallbacks(mHideRunnable)
-    mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
-}
+    private fun delayedHide(delayMillis: Int) {
+        mHideHandler.removeCallbacks(mHideRunnable)
+        mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
+    }
 
-companion object {
-    private val AUTO_HIDE = true
-    private val AUTO_HIDE_DELAY_MILLIS = 3000
-    private val UI_ANIMATION_DELAY = 300
-}
+    companion object {
+        private val AUTO_HIDE = true
+        private val AUTO_HIDE_DELAY_MILLIS = 3000
+        private val UI_ANIMATION_DELAY = 300
+    }
 }

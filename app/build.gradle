@@ -21,7 +21,7 @@ android {
     }
     sourceSets {
         main.java.srcDir("src/main/kotlin")
-        main.res.srcDirs +=("src/main/res/test_static_imgs")
+        main.res.srcDirs += ("src/main/res/test_static_imgs")
     }
 }
 
@@ -38,5 +38,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:gridlayout-v7:28.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.chrisbanes:PhotoView:1.3.1' //migrate to 2.0.0 in the future
     implementation 'com.squareup.picasso:picasso:2.71828'
 }
