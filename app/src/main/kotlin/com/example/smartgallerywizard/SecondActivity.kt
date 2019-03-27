@@ -16,7 +16,7 @@ class SecondActivity : AppCompatActivity() {
 
         setContentView(R.layout.double_column_layout)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        setContentView(R.layout.double_column_layout)
+//        setContentView(R.layout.double_column_layout)
 
         createListenerOnClickButton()
     }

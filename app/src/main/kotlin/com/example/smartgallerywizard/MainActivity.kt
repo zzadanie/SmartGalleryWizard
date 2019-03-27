@@ -1,150 +1,169 @@
 package com.example.smartgallerywizard
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.media.Image
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
-import android.view.View
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.View.*
 import android.widget.Button
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_fullscreen.*
-import android.support.v4.content.ContextCompat.startActivity
-import android.content.Intent
+import java.io.InputStream
+import java.net.URL
+import android.os.Looper
+import kotlinx.android.synthetic.main.double_column_layout.*
 
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 class MainActivity : AppCompatActivity() {
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
-        // Delayed removal of status and navigation bar
-
-        // Note that some of these constants are new as of API 16 (Jelly Bean)
-        // and API 19 (KitKat). It is safe to use them, as they are inlined
-        // at compile-time and do nothing on earlier devices.
-        fullscreen_content.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) fullscreen_content.systemUiVisibility =
+//                    SYSTEM_UI_FLAG_LOW_PROFILE or
+//                            SYSTEM_UI_FLAG_FULLSCREEN or
+//                            SYSTEM_UI_FLAG_LAYOUT_STABLE or
+//                            SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+//                            SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+//                            SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//        }
     }
+
+
     private val mShowPart2Runnable = Runnable {
-        // Delayed display of UI elements
         supportActionBar?.show()
-        fullscreen_content_controls.visibility = View.VISIBLE
+//        fullscreen_content_controls.visibility = VISIBLE
     }
     private var mVisible: Boolean = false
     private val mHideRunnable = Runnable { hide() }
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private val mDelayHideTouchListener = View.OnTouchListener { _, _ ->
+    private val mDelayHideTouchListener = OnTouchListener { _, _ ->
         if (AUTO_HIDE) {
             delayedHide(AUTO_HIDE_DELAY_MILLIS)
         }
         false
     }
 
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var gridLayoutManager : GridLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_fullscreen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         mVisible = true
-
-        // Set up the user interaction to manually show or hide the system UI.
-        fullscreen_content.setOnClickListener { toggle() }
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
+//        fullscreen_content.setOnClickListener { toggle() }
         main_click_button.setOnTouchListener(mDelayHideTouchListener)
-
-
         createListenerOnClickButton()
 
+        recyclerView = findViewById(R.id.recyclerView)
+        gridLayoutManager = GridLayoutManager(applicationContext, 1)
+        recyclerView.layoutManager = gridLayoutManager
 
+//        Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(imageView)
+
+
+//        val uiHandler = Handler(Looper.getMainLooper())
+//        uiHandler.post {
+//            Picasso.get()
+//                    .load("http://i.imgur.com/DvpvklR.png")
+//                    .into(recyclerView)
+//        }
+
+//        val img : Bitmap = Picasso.get().load("http://i.imgur.com/DvpvklR.png").get()
+
+//        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+//        StrictMode.setThreadPolicy(policy)
     }
 
-    private fun createListenerOnClickButton() {
-        val clickButton = findViewById<Button>(R.id.main_click_button)
-        clickButton.setOnClickListener {
-            this@MainActivity.startActivity(Intent(this@MainActivity,
-                    SecondActivity::class.java))
-        }
+    private fun loadImageFromURL(url: String): Drawable {
+        val inputStream = URL(url).content as InputStream
+        return Drawable.createFromStream(inputStream, "src name")
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+    private val imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/8731viki_Politechnika_Wroc%C5%82awska_ul._Wybrze%C5%BCe_Wyspia%C5%84skiego._Foto_Barbara_Maliszewska.jpg/1280px-8731viki_Politechnika_Wroc%C5%82awska_ul._Wybrze%C5%BCe_Wyspia%C5%84skiego._Foto_Barbara_Maliszewska.jpg"
+//    private val image = loadImageFromURL(imgUrl)
+//
+//    private fun parseImg(imgUrl: String) {
+//        val handler = Handler(Looper.getMainLooper())
+//        handler.post {
+//            val url = URL(imgUrl)
+//            val bitmap: Bitmap = Picasso.get().load("http://i.imgur.com/DvpvklR.png").get()
+//        }
+//    }
+//}
 
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100)
+private var bitmap: Bitmap? = null
+
+private fun createListenerOnClickButton() {
+    val clickButton = findViewById<Button>(R.id.main_click_button)
+    clickButton.setOnClickListener {
+        val alertDialog = AlertDialog.Builder(this@MainActivity).create()
+
+        val d =  Drawable.createFromStream(assets.open("a1.jpeg"), null)
+
+
+//        alertDialog.setTitle("DOES IMG EXIST?")
+//        alertDialog.setFeatureDrawable(123451, BitmapDrawable(resources, parseImg(imgUrl)))
+//        alertDialog.setMessage("Alert message to be shown")
+//        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+//                DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+//        alertDialog.show()
+
+        val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
+
+        startActivity(intent)
+
+        //            this@MainActivity.startActivity(Intent(this@MainActivity,
+//                    SecondActivity::class.java))
     }
+}
 
-    private fun toggle() {
-        if (mVisible) {
-            hide()
-        } else {
-            show()
-        }
+override fun onPostCreate(savedInstanceState: Bundle?) {
+    super.onPostCreate(savedInstanceState)
+    delayedHide(100)
+}
+
+private fun toggle() {
+    if (mVisible) {
+        hide()
+    } else {
+        show()
     }
+}
 
-    private fun hide() {
-        // Hide UI first
-        supportActionBar?.hide()
-        fullscreen_content_controls.visibility = View.GONE
-        mVisible = false
+private fun hide() {
+    supportActionBar?.hide()
+//    fullscreen_content_controls.visibility = GONE
+    mVisible = false
+    mHideHandler.removeCallbacks(mShowPart2Runnable)
+    mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY.toLong())
+}
 
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable)
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY.toLong())
-    }
+private fun show() {
+//    fullscreen_content.systemUiVisibility =
+//            SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+//                    SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+    mVisible = true
+    mHideHandler.removeCallbacks(mHidePart2Runnable)
+    mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY.toLong())
+}
 
-    private fun show() {
-        // Show the system bar
-        fullscreen_content.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-        mVisible = true
+private fun delayedHide(delayMillis: Int) {
+    mHideHandler.removeCallbacks(mHideRunnable)
+    mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
+}
 
-        // Schedule a runnable to display UI elements after a delay
-        mHideHandler.removeCallbacks(mHidePart2Runnable)
-        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY.toLong())
-    }
-
-    /**
-     * Schedules a call to hide() in [delayMillis], canceling any
-     * previously scheduled calls.
-     */
-    private fun delayedHide(delayMillis: Int) {
-        mHideHandler.removeCallbacks(mHideRunnable)
-        mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
-    }
-
-    companion object {
-        /**
-         * Whether or not the system UI should be auto-hidden after
-         * [AUTO_HIDE_DELAY_MILLIS] milliseconds.
-         */
-        private val AUTO_HIDE = true
-
-        /**
-         * If [AUTO_HIDE] is set, the number of milliseconds to wait after
-         * user interaction before hiding the system UI.
-         */
-        private val AUTO_HIDE_DELAY_MILLIS = 3000
-
-        /**
-         * Some older devices needs a small delay between UI widget updates
-         * and a change of the status and navigation bar.
-         */
-        private val UI_ANIMATION_DELAY = 300
-    }
+companion object {
+    private val AUTO_HIDE = true
+    private val AUTO_HIDE_DELAY_MILLIS = 3000
+    private val UI_ANIMATION_DELAY = 300
+}
 }
