@@ -36,9 +36,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var imagesList: List<Bitmap>
+    private lateinit var imagesDtoList : List<ImageDto>
+
     private fun createExemplaryImages() = listOf(createBitmap("a1.jpeg"), createBitmap("a2.jpeg"), createBitmap("a7.jpeg"), createBitmap("c13.jpeg"))
 
     private fun createBitmap(name: String) = BitmapFactory.decodeStream(assets.open(name))
+
+
 
     private val mShowPart2Runnable = Runnable {
         supportActionBar?.show()
@@ -81,11 +85,11 @@ class MainActivity : AppCompatActivity() {
                     .mapToObj<ImageDto> { i -> items.getJSONObject(i).toImageDto() }
                     .collect(Collectors.toList())
 
-            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
-            intent.putExtra("IMAGE_URL", link)
+            imagesDtoList = images
 
-            startActivity(intent)
-
+//            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
+//            intent.putExtra("IMAGE_URL", link)
+//            startActivity(intent)
         }
 
         imagesList = createExemplaryImages()
