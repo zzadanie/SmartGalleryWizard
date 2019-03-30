@@ -10,10 +10,16 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View.*
 import android.widget.Button
+import khttp.get
 import kotlinx.android.synthetic.main.activity_fullscreen.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.InputStream
+import java.lang.Exception
 import java.net.URL
-
+import java.util.concurrent.Executors
+import java.util.stream.Collectors
+import java.util.stream.IntStream
 
 class MainActivity : AppCompatActivity() {
     private val mHideHandler = Handler()
@@ -61,6 +67,26 @@ class MainActivity : AppCompatActivity() {
         main_click_button.setOnTouchListener(mDelayHideTouchListener)
         createListenerOnClickButton()
 
+        val aaa = Executors.newSingleThreadExecutor().submit {
+            get(url = "http://httpbin.org/ip")
+
+            val response = get(url = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=true").jsonObject
+            val items = response.getJSONArray("items")
+            val media = items.getJSONObject(0)["media"] as JSONObject
+            val link = media["m"] as String
+
+
+            val images = IntStream
+                    .range(0, items.length())
+                    .mapToObj<ImageDto> { i -> items.getJSONObject(i).toImageDto() }
+                    .collect(Collectors.toList())
+
+            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
+            intent.putExtra("IMAGE_URL", link)
+
+            startActivity(intent)
+
+        }
 
         imagesList = createExemplaryImages()
 
@@ -69,6 +95,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = gridLayoutManager
 
 
+    }
+
+    fun JSONObject.toImageDto(): ImageDto = ImageDto(title = getString("title"), date = getString("date_taken"), tags = getString("tags"), link = getJSONObject("media").getString("m"))
 
 
 //        Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(imageView)
@@ -83,16 +112,14 @@ class MainActivity : AppCompatActivity() {
 
 //        val img : Bitmap = Picasso.get().load("http://i.imgur.com/DvpvklR.png").get()
 
-//        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+    //        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 //        StrictMode.setThreadPolicy(policy)
-    }
-
     private fun loadImageFromURL(url: String): Drawable {
         val inputStream = URL(url).content as InputStream
         return Drawable.createFromStream(inputStream, "src name")
     }
 
-    private val imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/8731viki_Politechnika_Wroc%C5%82awska_ul._Wybrze%C5%BCe_Wyspia%C5%84skiego._Foto_Barbara_Maliszewska.jpg/1280px-8731viki_Politechnika_Wroc%C5%82awska_ul._Wybrze%C5%BCe_Wyspia%C5%84skiego._Foto_Barbara_Maliszewska.jpg"
+    private val imgUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Wroclaw_kosciol_sw.Idziego_od_plKatedralnego.jpg/1280px-Wroclaw_kosciol_sw.Idziego_od_plKatedralnego.jpg"
 //    private val image = loadImageFromURL(imgUrl)
 //
 //    private fun parseImg(imgUrl: String) {
@@ -114,7 +141,6 @@ class MainActivity : AppCompatActivity() {
             val d = Drawable.createFromStream(assets.open("a1.jpeg"), null)
 
 
-
 //        alertDialog.setTitle("DOES IMG EXIST?")
 //        alertDialog.setFeatureDrawable(123451, BitmapDrawable(resources, parseImg(imgUrl)))
 //        alertDialog.setMessage("Alert message to be shown")
@@ -123,7 +149,7 @@ class MainActivity : AppCompatActivity() {
 //        alertDialog.show()
 
             val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
-            intent.putExtra("IMAGE", imgUrl)
+            intent.putExtra("IMAGE_URL", imgUrl)
 
             startActivity(intent)
 

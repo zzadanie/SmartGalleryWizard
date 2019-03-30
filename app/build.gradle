@@ -4,10 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 //apply plugin: 'findbugs'
 
 android {
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.smartgallerywizard"
-        minSdkVersion 15
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -40,12 +43,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
     implementation 'androidx.gridlayout:gridlayout:1.0.0-beta01'
     implementation 'androidx.annotation:annotation:1.0.0-beta01'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0' //migrate to 2.0.0 in the future
     implementation 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.github.jkcclemens:khttp:0.1.0'
 //    implementation 'com.google.code.gson:gson:2.8.5'
 //    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.8'
 }

@@ -1,22 +1,27 @@
 package com.example.smartgallerywizard
 
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.request.RequestOptions
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 
 class FullImageDisplayActivity : AppCompatActivity() {
 
     private lateinit var photoViewAttacher: PhotoViewAttacher
 
-    private fun defaultImage() = BitmapFactory.decodeStream(assets.open("a7.jpeg"))
+    private fun defaultImage() = BitmapFactory.decodeStream(assets.open("a1.jpeg"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.full_image_layout)
         val imageView = findViewById<ImageView>(R.id.imageView)
-        photoViewAttacher = PhotoViewAttacher(imageView)
+        this.photoViewAttacher = PhotoViewAttacher(imageView)
 
 //        val imageUrl = intent.getStringExtra("IMAGE")
 //        var bitmap: Bitmap? = null
@@ -34,8 +39,17 @@ class FullImageDisplayActivity : AppCompatActivity() {
 
 //        Picasso.get().load(imgUrl).into(imgUrl)
 
+//        val options = RequestOptions()
+//                .fitCenter()
+//                .placeholder(ColorDrawable(Color.BLACK))
+//                .error(ColorDrawable(Color.BLACK))
+//                .priority(Priority.HIGH)
 
-        imageView.setImageBitmap(defaultImage())
+        val imageUrl = intent.getStringExtra("IMAGE_URL") ?: imgUrl
+        Glide.with(applicationContext)
+                .load(imageUrl)
+                .into(imageView)
+//        imageView.setImageBitmap(defaultImage()) //check normal download by threads or khttp
 
 
 
