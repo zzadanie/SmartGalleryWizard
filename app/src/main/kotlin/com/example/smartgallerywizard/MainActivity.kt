@@ -7,9 +7,9 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View.*
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_fullscreen.*
@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         }
         false
     }
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
+    private lateinit var gridLayoutManager: androidx.recyclerview.widget.GridLayoutManager
 
 //    private lateinit var recyclerViewAdapter : RecyclerView.Adapter
 
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         imagesList = createExemplaryImages()
 
         recyclerView = findViewById(R.id.recyclerView)
-        gridLayoutManager = GridLayoutManager(applicationContext, 1)
+        gridLayoutManager = androidx.recyclerview.widget.GridLayoutManager(applicationContext, 1)
         recyclerView.layoutManager = gridLayoutManager
 
 

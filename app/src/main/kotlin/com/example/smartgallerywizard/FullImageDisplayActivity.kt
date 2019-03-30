@@ -2,7 +2,7 @@ package com.example.smartgallerywizard
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 

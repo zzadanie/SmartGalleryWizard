@@ -1,10 +1,10 @@
 package com.example.smartgallerywizard
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 
-class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MViewHolder>() {
+class GalleryAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<GalleryAdapter.MViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MViewHolder {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -17,7 +17,7 @@ class GalleryAdapter : RecyclerView.Adapter<GalleryAdapter.MViewHolder>() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    class MViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class MViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView), View.OnClickListener {
         override fun onClick(v: View?) {
 
         }
