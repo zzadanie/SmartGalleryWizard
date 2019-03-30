@@ -12,16 +12,14 @@ import android.view.View.*
 import android.widget.Button
 import khttp.get
 import kotlinx.android.synthetic.main.activity_fullscreen.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.InputStream
-import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.Executors
 import java.util.stream.Collectors
 import java.util.stream.IntStream
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
         //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -36,7 +34,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var imagesList: List<Bitmap>
-    private lateinit var imagesDtoList : List<ImageDto>
+    private val uselessLink: String = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Wroclaw_kosciol_sw.Idziego_od_plKatedralnego.jpg/1280px-Wroclaw_kosciol_sw.Idziego_od_plKatedralnego.jpg"
+    private var imagesDtoList : List<ImageDto> = listOf(ImageDto("titlee", date ="123333", tags = "#mleko", link = uselessLink))
+
 
     private fun createExemplaryImages() = listOf(createBitmap("a1.jpeg"), createBitmap("a2.jpeg"), createBitmap("a7.jpeg"), createBitmap("c13.jpeg"))
 
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         main_click_button.setOnTouchListener(mDelayHideTouchListener)
         createListenerOnClickButton()
 
-        val aaa = Executors.newSingleThreadExecutor().submit {
+        val future = Executors.newSingleThreadExecutor().submit {
             get(url = "http://httpbin.org/ip")
 
             val response = get(url = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=true").jsonObject
@@ -86,8 +86,7 @@ class MainActivity : AppCompatActivity() {
 
             imagesDtoList = images
 
-            recyclerViewExampleAdapter = RecyclerViewExampleAdapter(applicationContext, imagesDtoList)
-            recyclerView.adapter = recyclerViewExampleAdapter
+
 
 //            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
 //            intent.putExtra("IMAGE_URL", link)
@@ -97,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         }
 //        recyclerViewExampleAdapter = RecyclerViewExampleAdapter(imagesDtoList)
 
+        while(!future.isDone){}
 
         imagesList = createExemplaryImages()
 
@@ -105,7 +105,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = gridLayoutManager
 
 
+        recyclerViewExampleAdapter = RecyclerViewExampleAdapter(applicationContext, imagesDtoList)
+        recyclerView.adapter = recyclerViewExampleAdapter
+
     }
+
 
     fun JSONObject.toImageDto(): ImageDto = ImageDto(title = getString("title"), date = getString("date_taken"), tags = getString("tags"), link = getJSONObject("media").getString("m"))
 

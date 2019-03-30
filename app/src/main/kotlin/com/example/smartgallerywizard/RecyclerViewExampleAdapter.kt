@@ -20,20 +20,12 @@ class RecyclerViewExampleAdapter(private val context: Context, private val items
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         Glide.with(context)
-                .load(itemsData[position])
+                .load(itemsData[position].link)
                 .into(viewHolder.imageView)
     }
 
     class ViewHolder(itemLayoutView: View) : RecyclerView.ViewHolder(itemLayoutView) {
-
-        lateinit var imageView : ImageView
-//        var txtViewTitle: TextView
-//        var imgViewIcon: ImageView
-//
-//        init {
-//            txtViewTitle = itemLayoutView.findViewById(R.id.title)
-//            imgViewIcon = itemLayoutView.findViewById(R.id.icon2) as ImageView
-//        }
+        val imageView = itemLayoutView.findViewById<ImageView>(R.id.partialImageView)
     }
 
     override fun getItemCount(): Int {
