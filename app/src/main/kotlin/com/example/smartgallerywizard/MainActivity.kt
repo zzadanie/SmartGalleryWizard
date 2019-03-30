@@ -42,8 +42,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun createBitmap(name: String) = BitmapFactory.decodeStream(assets.open(name))
 
-
-
     private val mShowPart2Runnable = Runnable {
         supportActionBar?.show()
 //        fullscreen_content_controls.visibility = VISIBLE
@@ -58,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     }
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var gridLayoutManager: androidx.recyclerview.widget.GridLayoutManager
+    private lateinit var recyclerViewExampleAdapter : RecyclerViewExampleAdapter
 
 //    private lateinit var recyclerViewAdapter : RecyclerView.Adapter
 
@@ -87,10 +86,17 @@ class MainActivity : AppCompatActivity() {
 
             imagesDtoList = images
 
+            recyclerViewExampleAdapter = RecyclerViewExampleAdapter(applicationContext, imagesDtoList)
+            recyclerView.adapter = recyclerViewExampleAdapter
+
 //            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
 //            intent.putExtra("IMAGE_URL", link)
 //            startActivity(intent)
+
+
         }
+//        recyclerViewExampleAdapter = RecyclerViewExampleAdapter(imagesDtoList)
+
 
         imagesList = createExemplaryImages()
 
