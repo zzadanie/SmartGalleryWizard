@@ -39,7 +39,7 @@ class RecyclerViewSimpleImageAdapter(private val applicationContext: Context, pr
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 val link = itemsData[position].link
-                val intent = Intent(applicationContext , FullImageDisplayActivity::class.java)
+                val intent = Intent(applicationContext, FullImageDisplayActivity::class.java)
                 intent.putExtra("IMAGE_URL", link)
                 startActivity(applicationContext, intent, null)
             }

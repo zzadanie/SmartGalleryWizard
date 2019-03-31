@@ -23,8 +23,13 @@ class RecyclerViewColumnedImageAdapter(private val applicationContext: Context, 
                 .into(viewHolder.imageView)
     }
 
+    override fun getItemCount(): Int {
+        return itemsData.size
+    }
+
     inner class ViewHolder : RecyclerView.ViewHolder, View.OnClickListener {
-        val imageView : ImageView
+        val imageView: ImageView
+
         constructor(itemLayoutView: View) : super(itemLayoutView) {
             imageView = itemLayoutView.findViewById(R.id.halfImageView)
             itemLayoutView.setOnClickListener(this)
@@ -34,14 +39,10 @@ class RecyclerViewColumnedImageAdapter(private val applicationContext: Context, 
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 val link = itemsData[position].link
-                val intent = Intent(applicationContext , FullImageDisplayActivity::class.java)
+                val intent = Intent(applicationContext, FullImageDisplayActivity::class.java)
                 intent.putExtra("IMAGE_URL", link)
                 ContextCompat.startActivity(applicationContext, intent, null)
             }
         }
-    }
-
-    override fun getItemCount(): Int {
-        return itemsData.size
     }
 }
