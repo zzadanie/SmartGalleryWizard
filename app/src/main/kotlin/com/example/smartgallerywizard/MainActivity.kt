@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity() {
         main_click_button.setOnTouchListener(mDelayHideTouchListener)
         createListenerOnClickButton()
 
+
+        gridLayoutManager = GridLayoutManager(applicationContext, 1)
+
         val future = Executors.newSingleThreadExecutor().submit {
             val items = get(url = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=true")
                     .jsonObject.getJSONArray("items")
@@ -60,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         }
         imagesList = createExemplaryImages()
         recyclerView = findViewById(R.id.recyclerView)
-        gridLayoutManager = GridLayoutManager(applicationContext, 1)
         recyclerView.layoutManager = gridLayoutManager
 
         recyclerViewSimpleImageAdapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
@@ -128,7 +130,12 @@ class MainActivity : AppCompatActivity() {
 //        alertDialog.show()
 
 
-            recyclerView.adapter = RecyclerViewColumnedImageAdapter(applicationContext, imagesDtoList)
+            val spanCount = gridLayoutManager.spanCount
+            if (spanCount == 2) {
+                recyclerView.adapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
+            } else {
+                recyclerView.adapter = RecyclerViewColumnedImageAdapter(applicationContext, imagesDtoList)
+            }
 
             gridLayoutManager.spanCount = gridLayoutManager.spanCount % 2 + 1
             // TODO, MOVE TO onImageViewClick
