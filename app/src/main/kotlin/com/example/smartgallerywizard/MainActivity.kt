@@ -1,7 +1,6 @@
 package com.example.smartgallerywizard
 
 import androidx.appcompat.app.AlertDialog
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
@@ -56,7 +55,7 @@ class MainActivity() : AppCompatActivity() {
     }
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var gridLayoutManager: androidx.recyclerview.widget.GridLayoutManager
-    private lateinit var recyclerViewExampleAdapter : RecyclerViewExampleAdapter
+    private lateinit var recyclerViewSimpleImageAdapter : RecyclerViewSimpleImageAdapter
 
 //    private lateinit var recyclerViewAdapter : RecyclerView.Adapter
 
@@ -94,7 +93,7 @@ class MainActivity() : AppCompatActivity() {
 
 
         }
-//        recyclerViewExampleAdapter = RecyclerViewExampleAdapter(imagesDtoList)
+//        recyclerViewSimpleImageAdapter = RecyclerViewSimpleImageAdapter(imagesDtoList)
 
         while(!future.isDone){}
 
@@ -105,8 +104,8 @@ class MainActivity() : AppCompatActivity() {
         recyclerView.layoutManager = gridLayoutManager
 
 
-        recyclerViewExampleAdapter = RecyclerViewExampleAdapter(applicationContext, imagesDtoList)
-        recyclerView.adapter = recyclerViewExampleAdapter
+        recyclerViewSimpleImageAdapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
+        recyclerView.adapter = recyclerViewSimpleImageAdapter
 
     }
 
@@ -162,10 +161,16 @@ class MainActivity() : AppCompatActivity() {
 //                DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
 //        alertDialog.show()
 
-            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
-            intent.putExtra("IMAGE_URL", imgUrl)
 
-            startActivity(intent)
+
+
+            recyclerView.adapter = RecyclerViewColumnedImageAdapter(applicationContext, imagesDtoList)
+
+            // TODO, MOVE TO onImageViewClick
+//            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
+//            intent.putExtra("IMAGE_URL", imgUrl)
+//
+//            startActivity(intent)
 
             //            this@MainActivity.startActivity(Intent(this@MainActivity,
 //                    SecondActivity::class.java))
