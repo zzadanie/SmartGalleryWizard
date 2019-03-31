@@ -25,7 +25,7 @@ class RecyclerViewSimpleImageAdapter(private val context: Context, private val i
     }
 
     class ViewHolder(itemLayoutView: View) : RecyclerView.ViewHolder(itemLayoutView) {
-        val imageView = itemLayoutView.findViewById<ImageView>(R.id.partialImageView)
+        val imageView : ImageView = itemLayoutView.findViewById(gR.id.partialImageView)
     }
 
     override fun getItemCount(): Int {

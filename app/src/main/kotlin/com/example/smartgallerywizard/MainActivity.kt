@@ -34,7 +34,7 @@ class MainActivity() : AppCompatActivity() {
 
     private lateinit var imagesList: List<Bitmap>
     private val uselessLink: String = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Wroclaw_kosciol_sw.Idziego_od_plKatedralnego.jpg/1280px-Wroclaw_kosciol_sw.Idziego_od_plKatedralnego.jpg"
-    private var imagesDtoList : List<ImageDto> = listOf(ImageDto("titlee", date ="123333", tags = "#mleko", link = uselessLink))
+    private var imagesDtoList: List<ImageDto> = listOf(ImageDto("titlee", date = "123333", tags = "#mleko", link = uselessLink))
 
 
     private fun createExemplaryImages() = listOf(createBitmap("a1.jpeg"), createBitmap("a2.jpeg"), createBitmap("a7.jpeg"), createBitmap("c13.jpeg"))
@@ -55,7 +55,7 @@ class MainActivity() : AppCompatActivity() {
     }
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var gridLayoutManager: androidx.recyclerview.widget.GridLayoutManager
-    private lateinit var recyclerViewSimpleImageAdapter : RecyclerViewSimpleImageAdapter
+    private lateinit var recyclerViewSimpleImageAdapter: RecyclerViewSimpleImageAdapter
 
 //    private lateinit var recyclerViewAdapter : RecyclerView.Adapter
 
@@ -70,10 +70,8 @@ class MainActivity() : AppCompatActivity() {
         createListenerOnClickButton()
 
         val future = Executors.newSingleThreadExecutor().submit {
-            get(url = "http://httpbin.org/ip")
-
-            val response = get(url = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=true").jsonObject
-            val items = response.getJSONArray("items")
+            val items = get(url = "https://api.flickr.com/services/feeds/photos_public.gne?format=json&nojsoncallback=true")
+                    .jsonObject.getJSONArray("items")
             val media = items.getJSONObject(0)["media"] as JSONObject
             val link = media["m"] as String
 
@@ -93,7 +91,8 @@ class MainActivity() : AppCompatActivity() {
         }
 //        recyclerViewSimpleImageAdapter = RecyclerViewSimpleImageAdapter(imagesDtoList)
 
-        while(!future.isDone){}
+        while (!future.isDone) {
+        }
 
         imagesList = createExemplaryImages()
 
@@ -161,11 +160,9 @@ class MainActivity() : AppCompatActivity() {
 //        alertDialog.show()
 
 
-
-
             recyclerView.adapter = RecyclerViewColumnedImageAdapter(applicationContext, imagesDtoList)
 
-            gridLayoutManager.spanCount = gridLayoutManager.spanCount%2 + 1
+            gridLayoutManager.spanCount = gridLayoutManager.spanCount % 2 + 1
             // TODO, MOVE TO onImageViewClick
 //            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
 //            intent.putExtra("IMAGE_URL", imgUrl)
