@@ -85,8 +85,6 @@ class MainActivity() : AppCompatActivity() {
 
             imagesDtoList = images
 
-
-
 //            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
 //            intent.putExtra("IMAGE_URL", link)
 //            startActivity(intent)
@@ -102,6 +100,7 @@ class MainActivity() : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         gridLayoutManager = androidx.recyclerview.widget.GridLayoutManager(applicationContext, 1)
         recyclerView.layoutManager = gridLayoutManager
+
 
 
         recyclerViewSimpleImageAdapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
@@ -166,6 +165,7 @@ class MainActivity() : AppCompatActivity() {
 
             recyclerView.adapter = RecyclerViewColumnedImageAdapter(applicationContext, imagesDtoList)
 
+            gridLayoutManager.spanCount = gridLayoutManager.spanCount%2 + 1
             // TODO, MOVE TO onImageViewClick
 //            val intent = Intent(this as AppCompatActivity, FullImageDisplayActivity::class.java)
 //            intent.putExtra("IMAGE_URL", imgUrl)
