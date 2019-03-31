@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.adapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
 
+
     }
 
     private fun goToFullImageView() {
