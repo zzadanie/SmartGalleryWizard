@@ -9,6 +9,7 @@
         android:id="@+id/halfImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="fitCenter"
         tools:srcCompat="@tools:sample/avatars[12]" />
 
 </LinearLayout>
