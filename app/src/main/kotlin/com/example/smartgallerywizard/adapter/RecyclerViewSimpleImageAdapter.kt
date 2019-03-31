@@ -1,4 +1,4 @@
-package com.example.smartgallerywizard
+package com.example.smartgallerywizard.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,9 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.smartgallerywizard.R
+import com.example.smartgallerywizard.activity.FullImageDisplayActivity
+import com.example.smartgallerywizard.dto.ImageDto
 
 class RecyclerViewSimpleImageAdapter(private val applicationContext: Context, private val itemsData: List<ImageDto>)
     : RecyclerView.Adapter<RecyclerViewSimpleImageAdapter.ViewHolder>() {

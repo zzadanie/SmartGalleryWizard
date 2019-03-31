@@ -1,11 +1,14 @@
 package com.example.smartgallerywizard
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.smartgallerywizard.R
+import com.example.smartgallerywizard.adapter.RecyclerViewColumnedImageAdapter
+import com.example.smartgallerywizard.adapter.RecyclerViewSimpleImageAdapter
+import com.example.smartgallerywizard.dto.ImageDto
 import khttp.get
 import org.json.JSONObject
 import java.io.InputStream

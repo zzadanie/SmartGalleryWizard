@@ -1,14 +1,11 @@
-package com.example.smartgallerywizard
+package com.example.smartgallerywizard.activity
 
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.request.RequestOptions
+import com.example.smartgallerywizard.R
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 
 class FullImageDisplayActivity : AppCompatActivity() {
