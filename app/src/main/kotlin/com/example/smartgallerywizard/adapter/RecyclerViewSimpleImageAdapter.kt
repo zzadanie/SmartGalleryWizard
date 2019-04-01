@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -28,13 +29,22 @@ class RecyclerViewSimpleImageAdapter(private val applicationContext: Context, pr
         Glide.with(applicationContext)
                 .load(itemsData[position].link)
                 .into(viewHolder.imageView)
+        viewHolder.photoDateTextView.text=itemsData[position].date
+        viewHolder.photoTagsTextView.text=itemsData[position].tags
+        viewHolder.photoTitleTextView.text=itemsData[position].title
     }
 
     inner class ViewHolder : RecyclerView.ViewHolder, View.OnClickListener {
         val imageView: ImageView
+        val photoTagsTextView : TextView
+        val photoTitleTextView : TextView
+        val photoDateTextView : TextView
 
         constructor(itemLayoutView: View) : super(itemLayoutView) {
             imageView = itemLayoutView.findViewById(R.id.partialImageView)
+            photoTagsTextView = itemLayoutView.findViewById(R.id.photoTags)
+            photoTitleTextView = itemLayoutView.findViewById(R.id.photoTitle)
+            photoDateTextView = itemLayoutView.findViewById(R.id.photoDate)
             itemLayoutView.setOnClickListener(this)
         }
 

@@ -8,8 +8,7 @@
     <TextView
         android:id="@+id/photoTitle"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="witam, title"/>
+        android:layout_height="20dp"/>
     <ImageView
         android:id="@+id/partialImageView"
         android:layout_width="match_parent"
@@ -17,11 +16,9 @@
     <TextView
         android:id="@+id/photoDate"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="photo date"/>
+        android:layout_height="20dp"/>
     <TextView
         android:id="@+id/photoTags"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="tagsy"/>
+        android:layout_height="20dp"/>
 </LinearLayout>

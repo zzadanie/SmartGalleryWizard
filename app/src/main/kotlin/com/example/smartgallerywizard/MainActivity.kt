@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.smartgallerywizard.R
 import com.example.smartgallerywizard.adapter.RecyclerViewColumnedImageAdapter
 import com.example.smartgallerywizard.adapter.RecyclerViewSimpleImageAdapter
 import com.example.smartgallerywizard.dto.ImageDto
@@ -44,9 +43,7 @@ class MainActivity : AppCompatActivity() {
 
             imagesDtoList = images
         }
-//        recyclerViewSimpleImageAdapter = RecyclerViewSimpleImageAdapter(imagesDtoList)
-        while (!future.isDone) {
-        }
+        while (!future.isDone);
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = gridLayoutManager
         recyclerViewSimpleImageAdapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
