@@ -5,20 +5,31 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/photoTitle"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
     <ImageView
         android:id="@+id/partialImageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/photoDate"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/photoDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"/>
+
+        <TextView
+            android:id="@+id/photoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            />
+    </FrameLayout>
+
     <TextView
         android:id="@+id/photoTags"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_width="185dp"
+        android:layout_height="20dp" />
 </LinearLayout>

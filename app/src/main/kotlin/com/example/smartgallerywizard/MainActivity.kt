@@ -42,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 
             imagesDtoList = images
         }
+        //TODO, do this more fancyy
+        //check connection after 20s(?) reconnect/button
+        //info if cannot connect to flickr, e.g. internet doesn't work, flickr api stop working lala
         while (!future.isDone);
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = gridLayoutManager
