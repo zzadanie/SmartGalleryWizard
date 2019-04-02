@@ -17,11 +17,10 @@ import java.util.stream.Collectors
 import java.util.stream.IntStream
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var imagesDtoList: List<ImageDto>
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var gridLayoutManager: androidx.recyclerview.widget.GridLayoutManager
     private lateinit var recyclerViewSimpleImageAdapter: RecyclerViewSimpleImageAdapter
-
+    private var imagesDtoList: List<ImageDto> = emptyList()
 //    private lateinit var recyclerViewAdapter : RecyclerView.Adapter
 
 
