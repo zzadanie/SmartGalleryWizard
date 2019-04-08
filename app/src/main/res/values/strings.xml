@@ -5,4 +5,8 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Awesome Button</string>
     <string name="dummy_content">AWESOME\nCONTENT</string>
+    <string name="detailed_view">Detailed view</string>
+    <string name="grid_view">Grid View</string>
+    <string name="detailed_image_layout">Detailed image layout</string>
+    <string name="detailed_image_view">Detailed image view</string>
 </resources>
