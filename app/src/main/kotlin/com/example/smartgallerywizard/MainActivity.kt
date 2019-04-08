@@ -1,34 +1,33 @@
 package com.example.smartgallerywizard
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.widget.Button
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.smartgallerywizard.adapter.RecyclerViewColumnedImageAdapter
 import com.example.smartgallerywizard.adapter.RecyclerViewSimpleImageAdapter
 import com.example.smartgallerywizard.dto.ImageDto
 import khttp.get
 import org.json.JSONObject
-import java.io.InputStream
-import java.net.URL
 import java.util.concurrent.Executors
 import java.util.stream.Collectors
 import java.util.stream.IntStream
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var gridLayoutManager: androidx.recyclerview.widget.GridLayoutManager
     private lateinit var recyclerViewSimpleImageAdapter: RecyclerViewSimpleImageAdapter
+    private lateinit var toolbar : Toolbar
     private var imagesDtoList: List<ImageDto> = emptyList()
-//    private lateinit var recyclerViewAdapter : RecyclerView.Adapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fullscreen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        createListenerOnClickButton()
 
         gridLayoutManager = GridLayoutManager(applicationContext, 1)
 
@@ -42,36 +41,33 @@ class MainActivity : AppCompatActivity() {
 
             imagesDtoList = images
         }
-        //TODO, do this more fancyy
-        //check connection after 20s(?) reconnect/button
-        //info if cannot connect to flickr, e.g. internet doesn't work, flickr api stop working lala
         while (!future.isDone);
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = gridLayoutManager
         recyclerViewSimpleImageAdapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
         recyclerView.adapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
+        toolbar = findViewById(R.id.toolbar)
+        toolbar.title = applicationContext.applicationInfo.loadLabel(applicationContext.packageManager)
+        setSupportActionBar(toolbar)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 
     fun JSONObject.toImageDto(): ImageDto = ImageDto(title = getString("title"), date = getString("date_taken"), tags = getString("tags"), link = getJSONObject("media").getString("m"))
 
-    private fun loadImageFromURL(url: String): Drawable {
-        val inputStream = URL(url).content as InputStream
-        return Drawable.createFromStream(inputStream, "src name")
-    }
-
-    private fun createListenerOnClickButton() {
-        val clickButton = findViewById<Button>(R.id.main_click_button)
-        clickButton.setOnClickListener {
-
-            val spanCount = gridLayoutManager.spanCount
-            if (spanCount == 2) {
-                recyclerView.adapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
-            } else {
-                recyclerView.adapter = RecyclerViewColumnedImageAdapter(applicationContext, imagesDtoList)
-            }
-
-            gridLayoutManager.spanCount = gridLayoutManager.spanCount % 2 + 1
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
+        if(item.itemId == R.id.gridView) {
+            gridLayoutManager.spanCount = 1
+            recyclerView.adapter = RecyclerViewSimpleImageAdapter(applicationContext, imagesDtoList)
         }
+        else if(item.itemId == R.id.detailedView) {
+            gridLayoutManager.spanCount = 2
+            recyclerView.adapter = RecyclerViewColumnedImageAdapter(applicationContext, imagesDtoList)
+        }
+        return true
     }
-
 }

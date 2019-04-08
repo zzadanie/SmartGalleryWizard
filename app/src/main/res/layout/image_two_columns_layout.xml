@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/avatars[12]" />
+        tools:srcCompat="@tools:sample/avatars[12]"
+        android:contentDescription="@string/detailed_image_view" />
 
 </LinearLayout>
