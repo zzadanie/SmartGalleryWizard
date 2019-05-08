@@ -4,7 +4,6 @@
     package="com.example.smartgallerywizard">
 
     <uses-sdk
-        android:minSdkVersion="24"
         android:maxSdkVersion="27"
         tools:ignore="GradleOverrides" />
     <application
